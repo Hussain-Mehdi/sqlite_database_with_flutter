@@ -2,24 +2,43 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseService {
-  static var database = null;
+  static Database? database = null;
 
   DatabaseService._privateConstructor();
+  static bool isTableCreated=true;
 
-  static Future<Database> getInstance() async {
+  static Future<Database?> getInstance() async {
     if (database == null) {
-      return database = await openDatabase(
+      database =  await openDatabase(
           join(await getDatabasesPath(), 'message_database.db'));
+      if(isTableCreated)
+      {
+        await createTable();
+        isTableCreated=false;
+      }
+      return database;
+    } else {
+      if(isTableCreated)
+      {
+        await createTable();
+        isTableCreated=false;
+      }
+      return database;
     }
-    return database;
   }
 
-  static createTable() async {
-    database =
-        openDatabase(join(await getDatabasesPath(), 'message_database.db'),
-            onCreate: (db, version) {
-      return db.execute(
-          "CREATE TABLE message(id INTEGER PRIMARY KEY,title TEXT,description TEXT,date DATETIME)");
-    }, version: 1);
+   static createTable() async {
+    try {
+      print("Creating table");
+      await database?.execute("CREATE TABLE message(id INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT,description TEXT,date TEXT)");
+      print("Table created");
+
+    } catch (e) {
+      print("Table is not created");
+    }
+  }
+
+  static Future<List<Map<String, Object?>>>  getAllTables()async{
+    return await database!.rawQuery('SELECT * FROM sqlite_master ORDER BY name;');
   }
 }
