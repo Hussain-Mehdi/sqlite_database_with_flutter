@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sqlite_flutte/database_instance.dart';
 
 class TableScreen extends StatefulWidget {
   const TableScreen({super.key});
@@ -11,15 +10,15 @@ class TableScreen extends StatefulWidget {
 class _TableScreenState extends State<TableScreen> {
       late final tables;
 
-      getTable()async{
-        tables=await DatabaseService.getAllTables();
-        print(tables);
-      }
-  @override
-  void initState() {
-    getTable();
-    super.initState();
-  }
+      // getTable()async{
+      //   tables=await DatabaseService.getAllTables();
+      //   print(tables);
+      // }
+  // @override
+  // void initState() {
+  //   getTable();
+  //   super.initState();
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

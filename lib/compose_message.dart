@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sqlite_flutte/message%20repository/message_repository.dart';
 import 'package:sqlite_flutte/message_model.dart';
 
 class ComposeMessage extends StatefulWidget {
@@ -13,6 +14,8 @@ class _ComposeMessageState extends State<ComposeMessage> {
   TextEditingController to = TextEditingController();
 
   TextEditingController message = TextEditingController();
+
+  MessageRepository _messageRepository = MessageRepository();
 
   @override
   void initState() {
@@ -41,10 +44,10 @@ class _ComposeMessageState extends State<ComposeMessage> {
           ElevatedButton(onPressed: () {
             if(widget._messsage!=null)
             {
-              Message.updateMessage(Message(null, to.text, message.text, widget._messsage!.date));
+              //_messageRepository.updateMessage(Message(null, to.text, message.text, widget._messsage!.date));
             }
             else{
-            Message.insertMessage(Message(null, to.text,message.text, DateTime.now().toString()));
+            _messageRepository.add(Message(null, to.text,message.text, DateTime.now().toString()));
 
             }
           }, child: const Text("Save"))

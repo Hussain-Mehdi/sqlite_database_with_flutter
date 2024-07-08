@@ -2,12 +2,14 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseService {
-  static Database? database = null;
+  
+  DatabaseService();
 
+  static Database? database = null;
   DatabaseService._privateConstructor();
   static bool isTableCreated=true;
 
-  static Future<Database?> getInstance() async {
+   Future<Database?> getInstance() async {
     if (database == null) {
       database =  await openDatabase(
           join(await getDatabasesPath(), 'message_database.db'));
@@ -27,7 +29,7 @@ class DatabaseService {
     }
   }
 
-   static createTable() async {
+    createTable() async {
     try {
       print("Creating table");
       await database?.execute("CREATE TABLE message(id INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT,description TEXT,date TEXT)");
@@ -38,7 +40,7 @@ class DatabaseService {
     }
   }
 
-  static Future<List<Map<String, Object?>>>  getAllTables()async{
+   Future<List<Map<String, Object?>>>  getAllTables()async{
     return await database!.rawQuery('SELECT * FROM sqlite_master ORDER BY name;');
   }
 }

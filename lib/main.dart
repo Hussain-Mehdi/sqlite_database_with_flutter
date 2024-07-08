@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:sqlite_flutte/data/dependency_injection_container.dart';
 import 'package:sqlite_flutte/home_screen.dart';
 
 void main() {
+
+  setup();
   runApp(const MyApp());
 }
 
